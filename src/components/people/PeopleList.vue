@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <people-card v-for="i in $store.state.people" :name="i.name"></people-card>
+    <people-card v-for="person in $store.getters.getPeople" v-bind="person" :key="person.id"></people-card>
     <add-card class="py-2" v-if="show_add" width="100%" :to="{name: 'PeopleCreatePage'}"></add-card>
     <router-view></router-view>
   </div>

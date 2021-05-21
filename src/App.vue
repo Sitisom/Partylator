@@ -31,7 +31,7 @@ body {
 }
 
 main {
-  padding: .5rem;
+  padding: .5rem .5rem 60px;
 }
 
 </style>

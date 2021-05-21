@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header @click="$router.push({name: 'PartiesListPage'})">
     <span>Partylator</span>
   </header>
 </template>

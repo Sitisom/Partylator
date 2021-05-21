@@ -8,6 +8,9 @@ import store from './store'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import VueMask from 'v-mask'
+Vue.use(VueMask)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
