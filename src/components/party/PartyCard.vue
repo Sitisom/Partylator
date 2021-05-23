@@ -1,6 +1,6 @@
 <template>
   <div class="party-card d-flex">
-    <router-link :to="{name: 'PartyDetailPage', params: {id}}" class="w-100">
+    <router-link :to="{name: 'PartyDetailPage', params: {id: id}}" class="w-100">
       <div @click="remove(id)" class="w-100 text-right">
         <b-icon-x font-size="20"></b-icon-x>
       </div>
