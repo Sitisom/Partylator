@@ -1,7 +1,7 @@
 <template>
   <div class="people-create-page mt-3">
     <div class="d-flex justify-content-end">
-          <b-icon-x font-size="20" @click="$router.push({name: 'PeoplePage'})"></b-icon-x>
+      <b-icon-x font-size="20" @click="$router.push({name: 'PeoplePage'})"></b-icon-x>
     </div>
     <b-form @submit="addPeople">
       <b-form-group label="Имя:" label-for="name-input">
@@ -16,9 +16,8 @@
           id="phone-input" type="tel" placeholder="+7 (___) ___-____"
           v-model="form.phone" v-mask="'+7 (###) ###-####'" :state="phoneState">
         </b-form-input>
-
       </b-form-group>
-      <b-button type="submit" variant="primary">Добавить</b-button>
+      <b-button type="submit" variant="primary" :disabled="!nameState && !phoneState">Добавить</b-button>
     </b-form>
   </div>
 </template>
@@ -47,6 +46,7 @@ export default {
   methods: {
     addPeople (e) {
       e.preventDefault()
+      if (!this.nameState && !this.phoneState) return false
       let obj = Object.assign({}, this.form)
       this.$store.commit('addPeople', obj)
       this.$router.push({name: 'PeoplePage'})
@@ -69,5 +69,10 @@ export default {
 .people-create-page {
   border: 1px solid black;
   padding: 1rem .5rem;
+  background-color: white;
+
+  position: fixed;
+  bottom: 55px;
+  width: 95%;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div class="d-flex flex-row">
+    <div class="control-panel d-flex flex-row py-2 px-3">
       <router-link class="h3" v-for='button in buttons'
                    :to="button.url"
                    :key="button.page">
@@ -44,5 +44,11 @@ footer {
 }
 a {
   color: black;
+  display: block;
+  padding: 0 1rem;
+}
+
+svg {
+  font-size: 2rem;
 }
 </style>

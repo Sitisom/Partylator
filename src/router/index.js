@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PartiesListPage from '@/components/party/PartiesListPage'
-import PartyCreatePage from '@/components/party/PartyCreatePage'
-import PartyDetailPage from '@/components/party/PartyDetailPage'
+import PartiesListPage from '../components/party/PartiesListPage'
+import PartyCreatePage from '../components/party/PartyCreatePage'
+import PartyDetailPage from '../components/party/PartyDetailPage'
 
-import PeoplePage from '@/components/people/PeoplePage'
-import PeopleCreatePage from '@/components/people/PeopleCreatePage'
+import PeoplePage from '../components/people/PeoplePage'
+import PeopleCreatePage from '../components/people/PeopleCreatePage'
+import AddMoneyPage from '../components/party/AddMoneyPage'
 
 Vue.use(Router)
 
@@ -25,7 +26,15 @@ export default new Router({
     {
       path: '/parties/:id',
       name: 'PartyDetailPage',
-      component: PartyDetailPage
+      component: PartyDetailPage,
+      children: [
+        {
+          path: 'addMoney',
+          name: 'AddMoneyPage',
+          component: AddMoneyPage,
+          props: true
+        }
+      ]
     },
     {
       path: '/people',

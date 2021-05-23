@@ -1,5 +1,8 @@
 <template>
-  <people-list :show_add="show_add"></people-list>
+  <people-list :can_create="can_create"
+               :can_remove="true"
+               :cardClickEvent="(id) => {}"
+  ></people-list>
 </template>
 
 <script>
@@ -9,13 +12,9 @@ export default {
   name: 'PeoplePage',
   components: { PeopleList },
   computed: {
-    show_add () {
+    can_create () {
       return this.$route.name !== 'PeopleCreatePage'
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
