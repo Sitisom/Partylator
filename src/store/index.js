@@ -3,13 +3,11 @@ import Vuex from 'vuex'
 
 function getState (lsName, stateObj) {
   if (!stateObj.length && localStorage.getItem(lsName)) {
-    console.log(stateObj)
-    stateObj = JSON.parse(localStorage.getItem(lsName))
-
-    // try {
-    // } catch (e) {
-    //   localStorage.removeItem(lsName)
-    // }
+    try {
+      stateObj = JSON.parse(localStorage.getItem(lsName))
+    } catch (e) {
+      localStorage.removeItem(lsName)
+    }
   }
   return stateObj
 }
@@ -19,23 +17,41 @@ let partyModule = {
     parties: []
   },
   getters: {
-    getParties: (state, getters) => {
-      let lsName = 'parties'
-      if (!state.parties.length && localStorage.getItem(lsName)) {
-        try {
-          state.parties = JSON.parse(localStorage.getItem(lsName))
-        } catch (e) {
-          localStorage.removeItem(lsName)
-        }
-      }
+    getParties: (state) => {
+      state.parties = getState('parties', state.parties)
       return state.parties
+    },
+    getParty: (state) => (id) => {
+      let qs = state.parties.filter(obj => obj.id === id)
+      return qs.length ? qs[0] : null
+    },
+    getPersonFromParty: (state) => (id, party) => {
+      let qs = party.people.filter(obj => obj.id === id)
+      return qs.length ? qs[0] : null
+    }
+  },
+  actions: {
+    addParty ({commit, rootState}, obj) {
+      commit('addParty', Object.assign({obj, ids: rootState.chosen_ids}))
+      rootState.chosen_ids = []
+    },
+    addMoneyToParty ({commit, getters}, payload) {
+      let party = getters.getParty(payload.id)
+      party.all_money += parseInt(payload.money)
+      commit('saveParties')
+    },
+    addMoneyToPerson ({commit, getters}, payload) {
+      let party = getters.getParty(payload.id)
+      let person = getters.getPersonFromParty(payload.personId, party)
+      person.money += parseInt(payload.money)
+      commit('saveParties')
     }
   },
   mutations: {
-    addParty (state, obj) {
+    addParty (state, payload) {
       let id = state.parties.length ? Math.max(...state.parties.map(obj => obj.id)) + 1 : 0
-      let people = state.chosen_ids.map(id => Object.assign({id: id, money: 0}))
-      let mutatedObj = Object.assign({id, people, all_money: 0, date: '22.05.2021'}, obj)
+      let people = payload.ids.map(id => Object.assign({id: id, money: 0}))
+      let mutatedObj = Object.assign({id, people, all_money: 0, date: '22.05.2021'}, payload.obj)
       state.parties.push(mutatedObj)
       localStorage.setItem('parties', JSON.stringify(state.parties))
 
@@ -45,28 +61,20 @@ let partyModule = {
       state.parties = state.parties.filter(obj => obj.id !== id)
       localStorage.setItem('parties', JSON.stringify(state.parties))
     },
-    addMoneyToParty (state, id, money) {
-
+    saveParties (state) {
+      localStorage.setItem('parties', JSON.stringify(state.parties))
     }
   }
 }
 
 let peopleModule = {
-  state: {
+  state: () => ({
     people: []
-  },
+  }),
   getters: {
-    getPeople: (state, getters) => {
-      // let lsName = 'people'
-      // if (!state.people.length && localStorage.getItem(lsName)) {
-      //   try {
-      //     state.people = JSON.parse(localStorage.getItem(lsName))
-      //   } catch (e) {
-      //     localStorage.removeItem(lsName)
-      //   }
-      // }
-      // return state.people
-      return [...getState('people', state.people), ...state.people]
+    getPeople: (state) => {
+      state.people = getState('people', state.people)
+      return state.people
     },
     getPerson: (state, getters) => (id) => {
       let qs = getters.getPeople.filter(obj => obj.id === id)
@@ -95,58 +103,15 @@ let peopleModule = {
 
 Vue.use(Vuex)
 export default new Vuex.Store({
+  modules: {
+    parties: partyModule,
+    people: peopleModule
+  },
   state: {
-    parties: [],
-    people: [],
     chosen_ids: [],
     chosen_party: null
   },
-  getters: {
-    getParties: (state, getters) => {
-      let lsName = 'parties'
-      if (!state.parties.length && localStorage.getItem(lsName)) {
-        try {
-          state.parties = JSON.parse(localStorage.getItem(lsName))
-        } catch (e) {
-          localStorage.removeItem(lsName)
-        }
-      }
-      return state.parties
-    },
-    getPeople: (state, getters) => {
-      // let lsName = 'people'
-      // if (!state.people.length && localStorage.getItem(lsName)) {
-      //   try {
-      //     state.people = JSON.parse(localStorage.getItem(lsName))
-      //   } catch (e) {
-      //     localStorage.removeItem(lsName)
-      //   }
-      // }
-      // return state.people
-      return [...getState('people', state.people), ...state.people]
-    },
-    getPerson: (state, getters) => (id) => {
-      let qs = getters.getPeople.filter(obj => obj.id === id)
-      return qs.length ? qs[0] : null
-    },
-    peopleNames (state) {
-      if (state.people.length) {
-        return state.people.map(obj => obj.name)
-      }
-      return []
-    }
-  },
   mutations: {
-    addPeople (state, obj) {
-      let id = state.people.length ? Math.max(...state.people.map(obj => obj.id)) + 1 : 0
-      let mutatedObj = Object.assign({id: id}, obj)
-      state.people.push(mutatedObj)
-      localStorage.setItem('people', JSON.stringify(state.people))
-    },
-    removePeople (state, id) {
-      state.people = state.people.filter(obj => obj.id !== id)
-      localStorage.setItem('people', JSON.stringify(state.people))
-    },
     addChosenId (state, id) {
       state.chosen_ids.push(id)
     },
@@ -155,22 +120,6 @@ export default new Vuex.Store({
     },
     resetChosenIds (state) {
       state.chosen_ids = []
-    },
-    addParty (state, obj) {
-      let id = state.parties.length ? Math.max(...state.parties.map(obj => obj.id)) + 1 : 0
-      let people = state.chosen_ids.map(id => Object.assign({id: id, money: 0}))
-      let mutatedObj = Object.assign({id, people, all_money: 0, date: '22.05.2021'}, obj)
-      state.parties.push(mutatedObj)
-      localStorage.setItem('parties', JSON.stringify(state.parties))
-
-      state.chosen_ids = []
-    },
-    removeParty (state, id) {
-      state.parties = state.parties.filter(obj => obj.id !== id)
-      localStorage.setItem('parties', JSON.stringify(state.parties))
-    },
-    addMoneyToParty (state, id, money) {
-
     }
   }
 })

@@ -52,8 +52,9 @@ export default {
         this.$store.commit('addChosenId', id)
       }
     },
-    createParty () {
-      this.$store.commit('addParty', this.form)
+    createParty (e) {
+      e.preventDefault()
+      this.$store.dispatch('addParty', this.form)
       this.$router.push({name: 'PartiesListPage'})
     },
     resetParty () {
