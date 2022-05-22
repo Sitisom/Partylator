@@ -1,26 +1,23 @@
 <template>
-  <div class="party-card d-flex">
-    <router-link :to="{name: 'PartyDetailPage', params: {id: id}}" class="w-100">
-      <div @click="remove(id)" class="w-100 text-right">
-        <b-icon-x font-size="20"></b-icon-x>
+  <router-link :to="{name: 'PartyDetailPage', params: {id: id}}" class='party-card'>
+    <div @click="remove(id)" class="remove-button">
+      <b-icon-x font-size="24"></b-icon-x>
+    </div>
+    <div class="info px-2">
+      <div class="title">
+        <h6>{{title}}</h6>
       </div>
-      <div class="info px-2 pb-2">
-        <div class="title">
-          <h6>{{title}}</h6>
-        </div>
-        <div class="people-count">
-          Людей: {{people.length}}
-        </div>
-        <div class="total-money">
-          Денег: {{all_money}}
-        </div>
-        <div class="date">
-          {{ date }}
-        </div>
+      <div class="people-count">
+        Людей: {{people.length}}
       </div>
-
-    </router-link>
-  </div>
+      <div class="total-money">
+        Денег: {{all_money}}
+      </div>
+      <div class="date">
+        {{ date }}
+      </div>
+    </div>
+  </router-link>
 </template>
 
 <script>
@@ -32,6 +29,7 @@ export default {
   components: {BIconX},
   methods: {
     remove (id) {
+      console.log('bad')
       this.$store.commit('removeParty', id)
     }
   }
@@ -45,12 +43,20 @@ export default {
   vertical-align: center;
   cursor: pointer;
 
-  width: 9.2rem;
-  height: 9.2rem;
+  width: 100%;
+
+  margin-bottom: 8px;
+
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .party-card:hover {
   border-color: blue;
 }
 
+.info {
+  padding: 12px 0;
+  flex-grow: 1;
+}
 </style>

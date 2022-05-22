@@ -25,15 +25,5 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App },
-  created() {
-    this.$store.commit('getToken')
-    if (!this.$store.state.auth.token) {
-      if (this.$router.currentRoute.name !== 'LoginPage') {
-        this.$router.push({name: 'LoginPage'})
-      }
-    } else {
-      this.$router.push({name: 'PartiesListPage'})
-    }
-  }
+  components: { App }
 })

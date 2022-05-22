@@ -1,12 +1,20 @@
 <template>
-  <header @click="$router.push({name: 'PartiesListPage'})">
-    <span>Partylator</span>
+  <header @click="$router.push({name: 'PartiesListPage'})" class='d-flex flex-row justify-content-between align-items-center'>
+    <div class='site-title'>
+      <span>Partylator</span>
+    </div>
   </header>
 </template>
 
 <script>
+import { BIcon, BIconPlusCircle } from 'bootstrap-vue'
+
 export default {
-  name: 'Header'
+  name: 'Header',
+  components: {
+    BIcon,
+    BIconPlusCircle
+  }
 }
 </script>
 
@@ -28,7 +36,6 @@ header span {
   letter-spacing: .02em;
   font-weight: 400;
   box-sizing: border-box;
-  padding-top: 16px;
 }
 
 </style>

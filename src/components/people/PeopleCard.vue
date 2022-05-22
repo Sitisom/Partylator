@@ -37,7 +37,7 @@ export default {
 
 <style scoped>
 .people-card {
-  border: 1px solid black;
+  border: 1px solid lightblue;
   padding: 1rem .5rem;
   margin-bottom: .5rem;
 }

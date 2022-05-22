@@ -1,13 +1,17 @@
 <template>
   <div class="pb-3 mb-5">
-    <people-card v-for="person in reversedPeople"
+    <div class='page-header'>
+      <add-card class="add-card py-2" v-if="can_create" width='100%' :to="{name: 'PeopleCreatePage'}"></add-card>
+    </div>
+    <div class='list'>
+      <people-card v-for="person in people"
                  :key="person.id"
                  :can_remove="can_remove"
                  :show_phone="true"
                  v-bind="person"
                  @cardClickEvent="cardClickEvent"
-    ></people-card>
-    <add-card class="add-card py-2" v-if="can_create" width="95%" :to="{name: 'PeopleCreatePage'}"></add-card>
+      ></people-card>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -23,9 +27,17 @@ export default {
     AddCard
   },
   props: ['can_create', 'can_remove', 'cardClickEvent'],
-  computed: {
-    reversedPeople () {
-      return Array.from(this.$store.getters.getPeople).reverse()
+  data() {
+    return {
+      people: []
+    }
+  },
+  mounted() {
+    this.people = Array.from(this.$store.getters.getPeople).reverse()
+  },
+  watch: {
+    '$store.getters.getPeople' (people) {
+      this.people = Array.from(people).reverse()
     }
   }
 }
@@ -33,8 +45,6 @@ export default {
 
 <style scoped>
 .add-card {
-  position: fixed;
-  bottom: 55px;
-  background-color: white;
+  width: 100%;
 }
 </style>

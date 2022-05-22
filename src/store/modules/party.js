@@ -18,6 +18,29 @@ export default {
       return qs.length ? qs[0] : null
     }
   },
+  mutations: {
+    addParty (state, payload) {
+      let id = state.parties.length ? Math.max(...state.parties.map(obj => obj.id)) + 1 : 0
+      let people = payload.ids.map(id => Object.assign({id: id, money: 0}))
+      let mutatedObj = Object.assign({
+        id,
+        people,
+        all_money: 0,
+        date: new Date().toLocaleDateString()
+      }, payload.obj)
+      state.parties.push(mutatedObj)
+      localStorage.setItem('parties', JSON.stringify(state.parties))
+
+      state.chosen_ids = []
+    },
+    removeParty (state, id) {
+      state.parties = state.parties.filter(obj => obj.id !== id)
+      localStorage.setItem('parties', JSON.stringify(state.parties))
+    },
+    saveParties (state) {
+      localStorage.setItem('parties', JSON.stringify(state.parties))
+    }
+  },
   actions: {
     addParty ({commit, rootState}, obj) {
       commit('addParty', Object.assign({obj, ids: rootState.chosen_ids}))
@@ -33,24 +56,6 @@ export default {
       let person = getters.getPersonFromParty(payload.personId, party)
       person.money += parseInt(payload.money)
       commit('saveParties')
-    }
-  },
-  mutations: {
-    addParty (state, payload) {
-      let id = state.parties.length ? Math.max(...state.parties.map(obj => obj.id)) + 1 : 0
-      let people = payload.ids.map(id => Object.assign({id: id, money: 0}))
-      let mutatedObj = Object.assign({id, people, all_money: 0, date: '22.05.2021'}, payload.obj)
-      state.parties.push(mutatedObj)
-      localStorage.setItem('parties', JSON.stringify(state.parties))
-
-      state.chosen_ids = []
-    },
-    removeParty (state, id) {
-      state.parties = state.parties.filter(obj => obj.id !== id)
-      localStorage.setItem('parties', JSON.stringify(state.parties))
-    },
-    saveParties (state) {
-      localStorage.setItem('parties', JSON.stringify(state.parties))
     }
   }
 }

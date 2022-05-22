@@ -1,7 +1,7 @@
 <template>
   <form class='mt-3'>
     <div class='form-group'>
-      <label for='email'>Почта</label>
+      <label for='email'>Логин</label>
       <input id='email' type='email' class='form-control' v-model='form.username'>
     </div>
     <div class='form-group'>
