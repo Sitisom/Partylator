@@ -6,8 +6,16 @@ import store from './store'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import VueToast from 'vue-toast-notification'
+import 'vue-toast-notification/dist/theme-sugar.css'
+
 import VueMask from 'v-mask'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 Vue.use(VueMask)
+Vue.use(VueAxios, axios)
+Vue.use(VueToast)
 
 Vue.config.productionTip = false
 
@@ -17,5 +25,15 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  created() {
+    this.$store.commit('getToken')
+    if (!this.$store.state.auth.token) {
+      if (this.$router.currentRoute.name !== 'LoginPage') {
+        this.$router.push({name: 'LoginPage'})
+      }
+    } else {
+      this.$router.push({name: 'PartiesListPage'})
+    }
+  }
 })

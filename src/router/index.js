@@ -1,52 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PartiesListPage from '../components/party/PartiesListPage'
-import PartyCreatePage from '../components/party/PartyCreatePage'
-import PartyDetailPage from '../components/party/PartyDetailPage'
-
-import PeoplePage from '../components/people/PeoplePage'
-import PeopleCreatePage from '../components/people/PeopleCreatePage'
-import AddMoneyPage from '../components/party/AddMoneyPage'
+import parties from './modules/parties'
+import people from './modules/people'
+import auth from './modules/auth'
+import settings from './modules/settings'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
+  base: process.env.BASE_URL,
   routes: [
-    {
-      path: '/parties',
-      name: 'PartiesListPage',
-      component: PartiesListPage
-    },
-    {
-      path: '/parties/create',
-      name: 'PartyCreatePage',
-      component: PartyCreatePage
-    },
-    {
-      path: '/parties/:id',
-      name: 'PartyDetailPage',
-      component: PartyDetailPage,
-      children: [
-        {
-          path: 'addMoney',
-          name: 'AddMoneyPage',
-          component: AddMoneyPage,
-          props: true
-        }
-      ]
-    },
-    {
-      path: '/people',
-      name: 'PeoplePage',
-      component: PeoplePage,
-      children: [
-        {
-          path: 'create',
-          name: 'PeopleCreatePage',
-          component: PeopleCreatePage
-        }
-      ]
-    }
+    ...parties,
+    ...people,
+    ...auth,
+    ...settings
   ]
 })
+
+const DEFAULT_TITLE = 'Partylator'
+router.afterEach((to) => {
+  Vue.nextTick(() => {
+    document.title = `${DEFAULT_TITLE} - ${to.name}` || DEFAULT_TITLE
+  })
+})
+
+export default router

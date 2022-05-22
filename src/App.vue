@@ -4,7 +4,7 @@
     <main>
       <router-view></router-view>
     </main>
-    <Footer/>
+    <Footer v-if='showFooter'/>
   </div>
 </template>
 
@@ -14,7 +14,17 @@ import Footer from '@/components/Footer'
 
 export default {
   name: 'app',
-  components: {Header, Footer}
+  components: {Header, Footer},
+  data() {
+    return {
+      route: this.$router.currentRoute.name
+    }
+  },
+  computed: {
+    showFooter() {
+      return !['LoginPage', 'SignupPage'].includes(this.route)
+    }
+  }
 }
 </script>
 

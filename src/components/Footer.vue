@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { BIcon, BIconHouseDoor, BIconHouseDoorFill, BIconPeople, BIconPeopleFill } from 'bootstrap-vue'
+import { BIcon, BIconHouseDoor, BIconHouseDoorFill, BIconPeople, BIconPeopleFill, BIconGear, BIconGearFill } from 'bootstrap-vue'
 
 export default {
   name: 'Footer',
@@ -20,13 +20,16 @@ export default {
     BIconHouseDoor,
     BIconHouseDoorFill,
     BIconPeople,
-    BIconPeopleFill
+    BIconPeopleFill,
+    BIconGear,
+    BIconGearFill
   },
   data: function () {
     return {
       buttons: [
         { page: '/parties', url: {name: 'PartiesListPage'}, active: 'house-door-fill', passive: 'house-door' },
-        { page: '/people', url: {name: 'PeoplePage'}, active: 'people-fill', passive: 'people' }
+        { page: '/people', url: {name: 'PeoplePage'}, active: 'people-fill', passive: 'people' },
+        { page: '/settings', url: {name: 'SettingsPage'}, active: 'gear-fill', passive: 'gear' }
       ]
     }
   }
