@@ -10,12 +10,11 @@
     </div>
     <div class='people-list'>
       <people-card v-for="person in people"
-                 v-bind="$store.getters.getPerson(person.id)"
-                 :key="person.id"
-                 :can_remove="false"
-                 :show_phone="false"
-                 :cardClickEvent="(id) => {}"
-      >
+                   v-bind="$store.getters.getPerson(person.id)"
+                   :key="person.id"
+                   :can_remove="false"
+                   :show_phone="false"
+                   :cardClickEvent="(id) => {}">
         <div class="expenses-data d-flex flex-row">
           <div class="persons-money mr-5">{{ computeMoney(person) }}</div>
           <div class="add-money-button" @click="personAddButton(person)">

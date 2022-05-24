@@ -1,7 +1,7 @@
 <template>
   <header @click="$router.push({name: 'PartiesListPage'})" class='d-flex flex-row justify-content-between align-items-center'>
     <div class='site-title'>
-      <span>Partylator</span>
+      <span>Meetupify</span>
     </div>
   </header>
 </template>
@@ -24,7 +24,7 @@ header {
   margin: 0;
   height: 56px;
   padding: 0 16px 0 24px;
-  background-color: #35495E;
+  background-color: lightseagreen;
   color: #ffffff;
 }
 

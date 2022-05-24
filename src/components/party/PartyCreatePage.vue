@@ -10,11 +10,21 @@
           placeholder="Введите название"
         ></b-form-input>
       </b-form-group>
+      <b-form-group
+        label="Дата начала:"
+        label-for="startDate">
+        <b-form-input
+          id="startDate"
+          v-model="form.startDate"
+          placeholder="Дата начала"
+        ></b-form-input>
+      </b-form-group>
       <people-list
         :show_add="false"
         :can_remove="false"
         :show_phone="true"
         :cardClickEvent="cardClickEvent"
+        :selectedPeople='people'
       ></people-list>
       <div class="control-buttons">
         <b-button type="submit" variant="primary">Добавить</b-button>
@@ -40,21 +50,28 @@ export default {
   data: function () {
     return {
       form: {
-        title: ''
-      }
+        title: '',
+        startDate: new Date().toLocaleDateString()
+      },
+      people: []
+    }
+  },
+  provide() {
+    return {
+      selectedPeople: this.people
     }
   },
   methods: {
     cardClickEvent (id) {
-      if (this.$store.state.chosen_ids.includes(id)) {
-        this.$store.commit('removeChosenId', id)
+      if (this.people.includes(id)) {
+        this.people = this.people.filter(el => el !== id)
       } else {
-        this.$store.commit('addChosenId', id)
+        this.people.push(id)
       }
     },
     createParty (e) {
       e.preventDefault()
-      this.$store.dispatch('addParty', this.form)
+      this.$store.dispatch('addParty', {people: this.people, form: this.form})
       this.$router.push({name: 'PartiesListPage'})
     },
     resetParty () {

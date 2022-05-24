@@ -17,7 +17,7 @@
           v-model="form.phone" v-mask="'+7 (###) ###-####'" :state="phoneState">
         </b-form-input>
       </b-form-group>
-      <b-button type="submit" variant="primary" :disabled="!nameState && !phoneState">Добавить</b-button>
+      <b-button type="submit" variant="success" :disabled="!nameState && !phoneState">Добавить</b-button>
     </b-form>
   </div>
 </template>
@@ -67,12 +67,12 @@ export default {
 
 <style scoped>
 .people-create-page {
-  border: 1px solid black;
+  border: 1px solid lightblue;
   padding: 1rem .5rem;
   background-color: white;
 
-  position: fixed;
-  bottom: 55px;
-  width: 95%;
+  /*position: fixed;*/
+  /*bottom: 55px;*/
+  /*width: 95%;*/
 }
 </style>

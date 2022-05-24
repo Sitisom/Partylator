@@ -14,7 +14,7 @@
         Денег: {{all_money}}
       </div>
       <div class="date">
-        {{ date }}
+        {{ startDate }}
       </div>
     </div>
   </router-link>
@@ -25,7 +25,7 @@ import {BIconX} from 'bootstrap-vue'
 
 export default {
   name: 'PartyCard',
-  props: ['id', 'title', 'people', 'all_money', 'date'],
+  props: ['id', 'title', 'people', 'all_money', 'createdAt', 'startDate'],
   components: {BIconX},
   methods: {
     remove (id) {
@@ -38,7 +38,7 @@ export default {
 
 <style scoped>
 .party-card {
-  border: 2px solid black;
+  border: 1px solid lightblue;
   border-radius: 5px;
   vertical-align: center;
   cursor: pointer;

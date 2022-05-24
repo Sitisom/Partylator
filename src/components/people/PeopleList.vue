@@ -2,6 +2,7 @@
   <div class="pb-3 mb-5">
     <div class='page-header'>
       <add-card class="add-card py-2" v-if="can_create" width='100%' :to="{name: 'PeopleCreatePage'}"></add-card>
+      <router-view class='mb-3'></router-view>
     </div>
     <div class='list'>
       <people-card v-for="person in people"
@@ -10,9 +11,9 @@
                  :show_phone="true"
                  v-bind="person"
                  @cardClickEvent="cardClickEvent"
+                 :selectedPeople='selectedPeople'
       ></people-card>
     </div>
-    <router-view></router-view>
   </div>
 </template>
 
@@ -26,7 +27,7 @@ export default {
     PeopleCard,
     AddCard
   },
-  props: ['can_create', 'can_remove', 'cardClickEvent'],
+  props: ['can_create', 'can_remove', 'cardClickEvent', 'selectedPeople'],
   data() {
     return {
       people: []

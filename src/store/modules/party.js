@@ -21,17 +21,15 @@ export default {
   mutations: {
     addParty (state, payload) {
       let id = state.parties.length ? Math.max(...state.parties.map(obj => obj.id)) + 1 : 0
-      let people = payload.ids.map(id => Object.assign({id: id, money: 0}))
+      let people = payload.people.map(id => Object.assign({id: id, money: 0}))
       let mutatedObj = Object.assign({
         id,
         people,
         all_money: 0,
-        date: new Date().toLocaleDateString()
-      }, payload.obj)
+        createdAt: new Date().toLocaleDateString()
+      }, payload.form)
       state.parties.push(mutatedObj)
       localStorage.setItem('parties', JSON.stringify(state.parties))
-
-      state.chosen_ids = []
     },
     removeParty (state, id) {
       state.parties = state.parties.filter(obj => obj.id !== id)
@@ -43,8 +41,7 @@ export default {
   },
   actions: {
     addParty ({commit, rootState}, obj) {
-      commit('addParty', Object.assign({obj, ids: rootState.chosen_ids}))
-      rootState.chosen_ids = []
+      commit('addParty', obj)
     },
     addMoneyToParty ({commit, getters}, payload) {
       let party = getters.getParty(payload.id)

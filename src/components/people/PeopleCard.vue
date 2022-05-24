@@ -20,7 +20,7 @@
 import {BIconX} from 'bootstrap-vue'
 export default {
   name: 'PeopleCard',
-  props: ['id', 'name', 'phone', 'can_remove', 'show_phone', 'cardClickEvent'],
+  props: ['id', 'name', 'phone', 'can_remove', 'show_phone', 'cardClickEvent', 'selectedPeople'],
   components: {BIconX},
   methods: {
     remove (id) {
@@ -29,7 +29,10 @@ export default {
   },
   computed: {
     isActive () {
-      return this.$store.state.chosen_ids.includes(this.id)
+      if (this.selectedPeople) {
+        return this.selectedPeople.includes(this.id)
+      }
+      return false
     }
   }
 }
